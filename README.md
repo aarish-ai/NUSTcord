@@ -48,21 +48,19 @@ NUSTcord/
 *   **Status Tracking**: Users can mark themselves as `Online`, `Offline`, `Busy`, or `Away`. `LoginServlet` automatically sets them to `Online`, and `LogoutServlet` ensures they are shifted to `Offline` upon exit.
 
 ### 3. Friend Networking
-*   **Validations**: Users cannot send friend requests to themselves.
-*   **Friend Requests**: Allows sending a target user an invite. A state machine transitions this from `PENDING` -> `ACCEPTED` / `REJECTED`. 
+*   **Friend Requests**: Allows sending a target user an invite using their unique **username**. A state machine transitions this from `PENDING` -> `ACCEPTED` / `REJECTED`. 
+*   **Sent Requests Tracking**: Users can conveniently track the status of requests they have sent via a dedicated "Sent Requests" section.
+*   **Validations**: Users cannot send friend requests to themselves or to non-existent usernames.
 *   **Friendships**: Accepting a request triggers a dual-insert into the `friends` table ensuring a bidirectional and permanent connection.
 
 ## 🛠️ Setup & Installation
 
-### Database Configuration
-1. Install MySQL.
+Please refer to the detailed [Setup.md](Setup.md) for a comprehensive, step-by-step guide to installing and running the application using Java JDK, Tomcat 9, and Maven.
+
+### Quick Start
+1. Ensure MySQL is installed.
 2. Execute the included `schema.sql` file to build the `nustcord_db` schema. This handles all table relations (`users`, `profiles`, `user_status`, `friend_requests`, `friends`) with appropriate cascading deletions.
 3. If necessary, update the `DBConnection.java` file in the `util` package to match your local MySQL username (default: `root`) and password (default: `password`).
-
-### Running the Application
-Since this project uses Maven:
-1. Open your terminal at the root of the project.
-2. Run `mvn clean package` to pull libraries and construct the `.war` configuration.
-3. Deploy the application using any standard web container, such as **Apache Tomcat** (Version 9+ recommended).
-    * _If using an IDE like IntelliJ IDEA or Eclipse, you can simply open the `pom.xml`, configure a local Tomcat Server Run Configuration, and click Play._
-4. Navigate to `http://localhost:8080/NUSTcord/login.jsp` to begin.
+4. Run `mvn clean package` to build the `.war` file.
+5. Deploy the application using **Apache Tomcat**.
+6. Navigate to `http://localhost:8080/NUSTcord/login.jsp` to begin.
