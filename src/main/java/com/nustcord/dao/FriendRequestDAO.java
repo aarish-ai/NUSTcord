@@ -78,4 +78,25 @@ public class FriendRequestDAO {
         }
         return requests;
     }
+
+    public List<FriendRequest> getRequestsBySender(int senderId) {
+        List<FriendRequest> requests = new ArrayList<>();
+        String sql = "SELECT * FROM friend_requests WHERE sender_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, senderId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                FriendRequest r = new FriendRequest();
+                r.setId(rs.getInt("id"));
+                r.setSenderId(rs.getInt("sender_id"));
+                r.setReceiverId(rs.getInt("receiver_id"));
+                r.setStatus(rs.getString("status"));
+                requests.add(r);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return requests;
+    }
 }
