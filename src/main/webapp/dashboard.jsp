@@ -1,13 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.nustcord.model.UserStatus" %>
 <%@ page import="com.nustcord.service.ProfileService" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.nustcord.model.Server" %>
+<%@ page import="com.nustcord.service.ServerService" %>
+<%@ page import="com.nustcord.dao.ServerDAO" %>
+<%@ page import="com.nustcord.dao.UserServerMapDAO" %>
 <%
     Integer userId = (Integer) session.getAttribute("userId");
     if (userId == null) { response.sendRedirect("login.jsp"); return; }
-    
+
     ProfileService ps = new ProfileService();
     UserStatus us = ps.getStatus(userId);
     String currentStatus = (us != null && us.getStatus() != null) ? us.getStatus() : "Offline";
+
+    Connection conn = (Connection) application.getAttribute("DBConnection");
+    ServerService serverService = new ServerService(new ServerDAO(conn), new UserServerMapDAO(conn));
+    List<Server> servers = serverService.getUserServers(userId);
 %>
 <!DOCTYPE html>
 <html>
@@ -18,13 +27,21 @@
 <body>
     <div class="container container-large">
         <div class="nav">
-            <span style="font-weight: bold; color: var(--accent-purple);">Welcome, <%= session.getAttribute("username") %></span>
+            <span style="font-weight: bold; color: var(--accent-purple);">
+                Welcome, <%= session.getAttribute("username") %>
+            </span>
             <div>
                 <li><a href="profile.jsp">Profile</a></li>
                 <li><a href="friends.jsp">Friends</a></li>
                 <li><a href="serverList.jsp">Servers</a></li>
-                <li><a href="serverSettings.jsp?serverId=1">Server Settings</a></li>
-                <li><a href="channelView.jsp?serverId=1">Channels</a></li>
+                <% for(Server s : servers) { %>
+                    <li><a href="serverSettings.jsp?serverId=<%=s.getId()%>">
+                        Settings: <%=s.getName()%>
+                    </a></li>
+                    <li><a href="channelView.jsp?serverId=<%=s.getId()%>">
+                        Channels: <%=s.getName()%>
+                    </a></li>
+                <% } %>
                 <li><a href="login.jsp">Logout</a></li>
             </div>
         </div>
@@ -52,7 +69,7 @@
             </form>
         </div>
         
-        <p>This is Phase A of NUSTcord. Use the navigation to explore your profile and friends list.</p>
+        <p>This is Phase A of NUSTcord. Use the navigation to explore your profile, friends list, and servers.</p>
     </div>
 </body>
 </html>
