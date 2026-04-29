@@ -24,6 +24,12 @@
                 <a href="profile.jsp">Profile</a> | 
                 <a href="friends.jsp">Friends</a> | 
                 <a href="LogoutServlet">Logout</a>
+<ul>
+    <li><a href="profile.jsp">Profile</a></li>
+    <li><a href="friends.jsp">Friends</a></li>
+    <li><a href="login.jsp">Logout</a></li>
+</ul>
+
             </div>
         </div>
 
