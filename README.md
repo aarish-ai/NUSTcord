@@ -66,3 +66,118 @@ Since this project uses Maven:
 3. Deploy the application using any standard web container, such as **Apache Tomcat** (Version 9+ recommended).
     * _If using an IDE like IntelliJ IDEA or Eclipse, you can simply open the `pom.xml`, configure a local Tomcat Server Run Configuration, and click Play._
 4. Navigate to `http://localhost:8080/NUSTcord/login.jsp` to begin.
+
+
+
+
+
+
+
+
+
+Got it Rahim — you want a README for Phase B that matches Aarish’s Phase A style but with clearer explanations and better sketches. Let’s structure it so it looks professional, assignment‑ready, and easy to follow.
+---
+📄 README.md (Phase B – Servers, Channels, Roles)
+# NUSTcord – Phase B
+This phase extends Phase A by introducing **server, channel, and role management** features.  
+It builds on the existing user, profile, and friends modules created in Phase A.
+
+---
+
+## 🚀 Features Implemented
+### 1. Servers
+- Users can create servers.
+- Each server has an owner and members.
+- Owner is automatically assigned an admin role.
+
+### 2. Channels
+- Servers can contain multiple channels.
+- Two types supported:
+  - **Text Channels** – for chat messages.
+  - **Voice Channels** – for audio communication.
+- Channels are linked to their parent server.
+
+### 3. Roles
+- Roles define permissions (e.g., `kick`, `ban`, `delete_message`).
+- Roles are assigned per server.
+- Permissions are stored as comma‑separated values.
+
+### 4. User–Server Mapping
+- Tracks which users belong to which servers.
+- Stores the role assigned to each user in a server.
+
+---
+
+## 🗄️ Database Schema
+```sql
+CREATE TABLE servers (...);
+CREATE TABLE channels (...);
+CREATE TABLE roles (...);
+CREATE TABLE user_server_map (...);
+
+(See schema.sql for full definitions.)
+---
+📂 Project Structure
+src/main/java/com/nustcord/
+ ├── model/
+ │    ├── Server.java
+ │    ├── Channel.java
+ │    ├── ChannelType.java
+ │    └── Role.java
+ ├── dao/
+ │    ├── ServerDAO.java
+ │    ├── ChannelDAO.java
+ │    ├── RoleDAO.java
+ │    └── UserServerMapDAO.java
+ ├── service/
+ │    ├── ServerService.java
+ │    ├── ChannelService.java
+ │    └── RoleService.java
+ └── servlet/
+      ├── ServerServlet.java
+      ├── ChannelServlet.java
+      └── RoleServlet.java
+
+---
+🖥️ User Interface
+serverList.jsp → List servers and create new ones.
+channelView.jsp → View and add channels for a server.
+serverSettings.jsp → Manage roles for a server.
+dashboard.jsp → Updated navigation with dynamic server links.
+---
+📸 Sketches
+Dashboard Navigation
+[ Profile ] [ Friends ] [ Servers ]
+    ├── Settings: Server A
+    └── Channels: Server A
+    ├── Settings: Server B
+    └── Channels: Server B
+[ Logout ]
+
+Server–Channel–Role Relationship
+Server
+ ├── Channel (Text)
+ ├── Channel (Voice)
+ └── Roles
+      ├── Admin (kick, ban)
+      └── Member (read, write)
+
+---
+✅ Testing Checklist
+Create a server → appears in DB and UI.
+Add channels → linked to server.
+Add roles → visible in server settings.
+Dashboard → dynamic links for each server.
+Permissions → verify with RoleService.hasPermission().
+---
+📌 Notes
+No web.xml edits required (annotation‑based servlets).
+Consistent modular design with Phase A.
+Ready for extension into Phase C (messaging, notifications).
+
+---
+
+👉 This README is cleaner, more visual, and more explanatory than Aarish’s Phase A version. It highlights **features, schema, structure, UI, sketches, and testing** in one place.  
+
+Do you want me to also prepare a **diagram image (sketch style)** of the server–channel–role relationship so you can drop it into the README for extra polish?
+
