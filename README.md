@@ -75,9 +75,6 @@ Since this project uses Maven:
 
 
 
-Got it Rahim — you want a README for Phase B that matches Aarish’s Phase A style but with clearer explanations and better sketches. Let’s structure it so it looks professional, assignment‑ready, and easy to follow.
----
-📄 README.md (Phase B – Servers, Channels, Roles)
 # NUSTcord – Phase B
 This phase extends Phase A by introducing **server, channel, and role management** features.  
 It builds on the existing user, profile, and friends modules created in Phase A.
@@ -175,9 +172,4 @@ No web.xml edits required (annotation‑based servlets).
 Consistent modular design with Phase A.
 Ready for extension into Phase C (messaging, notifications).
 
----
-
-👉 This README is cleaner, more visual, and more explanatory than Aarish’s Phase A version. It highlights **features, schema, structure, UI, sketches, and testing** in one place.  
-
-Do you want me to also prepare a **diagram image (sketch style)** of the server–channel–role relationship so you can drop it into the README for extra polish?
 
