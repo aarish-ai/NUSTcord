@@ -41,3 +41,41 @@ CREATE TABLE IF NOT EXISTS friends (
     FOREIGN KEY (user_id1) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id2) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- === Rahim's Part: Servers, Channels, Roles ===
+
+CREATE TABLE servers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    owner_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE channels (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    server_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    type ENUM('TEXT','VOICE') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (server_id) REFERENCES servers(id) ON DELETE CASCADE
+);
+
+CREATE TABLE roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    server_id INT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    permissions TEXT,
+    FOREIGN KEY (server_id) REFERENCES servers(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_server_map (
+    user_id INT NOT NULL,
+    server_id INT NOT NULL,
+    role_id INT,
+    PRIMARY KEY (user_id, server_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (server_id) REFERENCES servers(id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL
+);
+
