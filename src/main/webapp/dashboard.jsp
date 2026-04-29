@@ -20,16 +20,12 @@
         <div class="nav">
             <span style="font-weight: bold; color: var(--accent-purple);">Welcome, <%= session.getAttribute("username") %></span>
             <div>
-                <a href="dashboard.jsp">Dashboard</a> | 
-                <a href="profile.jsp">Profile</a> | 
-                <a href="friends.jsp">Friends</a> | 
-                <a href="LogoutServlet">Logout</a>
-<ul>
-    <li><a href="profile.jsp">Profile</a></li>
-    <li><a href="friends.jsp">Friends</a></li>
-    <li><a href="login.jsp">Logout</a></li>
-</ul>
-
+                <li><a href="profile.jsp">Profile</a></li>
+                <li><a href="friends.jsp">Friends</a></li>
+                <li><a href="serverList.jsp">Servers</a></li>
+                <li><a href="serverSettings.jsp?serverId=1">Server Settings</a></li>
+                <li><a href="channelView.jsp?serverId=1">Channels</a></li>
+                <li><a href="login.jsp">Logout</a></li>
             </div>
         </div>
 
