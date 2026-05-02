@@ -30,7 +30,7 @@
             <h3>Send Friend Request</h3>
             <form action="FriendServlet" method="POST" style="display: flex; gap: 10px;">
                 <input type="hidden" name="action" value="send">
-                <input type="number" name="receiverId" placeholder="Receiver User ID" required style="width: auto; flex-grow: 1;">
+                <input type="text" name="receiverUsername" placeholder="Receiver Username" required style="width: auto; flex-grow: 1;">
                 <button type="submit" class="btn" style="width: auto; margin-top: 0;">Send Request</button>
             </form>
         </div>
@@ -72,6 +72,32 @@
                                        <button type="submit" class="btn" style="background: var(--error-red); width: auto; padding: 5px 10px;">Reject</button>
                                     </form>
                                 </div>
+                            </div>
+            <%          }
+                    }
+                }
+            %>
+        </div>
+        
+        <div style="background: #2a2a30; padding: 15px; border-radius: 5px; margin-top: 20px;">
+            <h3>Sent Requests</h3>
+            <% 
+                if (userId != null) {
+                    FriendRequestDAO reqDao = new FriendRequestDAO();
+                    UserDAO userDao = new UserDAO();
+                    List<FriendRequest> sentRequests = reqDao.getRequestsBySender(userId);
+                    
+                    if (sentRequests.isEmpty()) {
+            %>
+                        <p style="color: var(--text-secondary); font-size: 0.9em;">No sent requests.</p>
+            <%      } else {
+                        for (FriendRequest req : sentRequests) {
+                            User receiverUser = userDao.getUserById(req.getReceiverId());
+                            String receiverName = (receiverUser != null) ? receiverUser.getUsername() : "Unknown User";
+            %>
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #444;">
+                                <span>Request to <strong><%= receiverName %></strong></span>
+                                <span style="color: var(--text-secondary); font-size: 0.9em;">Status: <strong><%= req.getStatus() %></strong></span>
                             </div>
             <%          }
                     }

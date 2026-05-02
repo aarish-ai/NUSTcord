@@ -1,6 +1,8 @@
 package com.nustcord.servlet;
 
 import com.nustcord.service.FriendService;
+import com.nustcord.dao.UserDAO;
+import com.nustcord.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,8 +29,13 @@ public class FriendServlet extends HttpServlet {
         
         try {
             if ("send".equals(action)) {
-                int receiverId = Integer.parseInt(request.getParameter("receiverId"));
-                friendService.sendFriendRequest(userId, receiverId);
+                String receiverUsername = request.getParameter("receiverUsername");
+                UserDAO userDAO = new UserDAO();
+                User receiver = userDAO.getUserByUsername(receiverUsername);
+                if (receiver == null) {
+                    throw new Exception("User '" + receiverUsername + "' not found.");
+                }
+                friendService.sendFriendRequest(userId, receiver.getId());
                 response.sendRedirect("friends.jsp?success=Request sent.");
             } else if ("accept".equals(action)) {
                 int requestId = Integer.parseInt(request.getParameter("requestId"));
