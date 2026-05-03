@@ -117,7 +117,8 @@ CREATE TABLE user_server_map (...);
 
 (See schema.sql for full definitions.)
 ---
-📂 Project Structure
+
+```📂 Project Structure
 src/main/java/com/nustcord/
  ├── model/
  │    ├── Server.java
@@ -139,13 +140,13 @@ src/main/java/com/nustcord/
       └── RoleServlet.java
 
 ---
-🖥️ User Interface
+```🖥️ User Interface
 serverList.jsp → List servers and create new ones.
 channelView.jsp → View and add channels for a server.
 serverSettings.jsp → Manage roles for a server.
 dashboard.jsp → Updated navigation with dynamic server links.
 ---
-📸 Sketches
+```📸 Sketches
 Dashboard Navigation
 [ Profile ] [ Friends ] [ Servers ]
     ├── Settings: Server A
@@ -163,14 +164,14 @@ Server
       └── Member (read, write)
 
 ---
-✅ Testing Checklist
+```✅ Testing Checklist
 Create a server → appears in DB and UI.
 Add channels → linked to server.
 Add roles → visible in server settings.
 Dashboard → dynamic links for each server.
 Permissions → verify with RoleService.hasPermission().
 ---
-📌 Notes
+```📌 Notes
 No web.xml edits required (annotation‑based servlets).
 Consistent modular design with Phase A.
 Ready for extension into Phase C (messaging, notifications).
@@ -180,6 +181,17 @@ Ready for extension into Phase C (messaging, notifications).
 5. Deploy the application using **Apache Tomcat**.
 6. Navigate to `http://localhost:8080/NUSTcord/login.jsp` to begin.
 ---
+
+
+
+
+
+
+
+
+
+
+
 
 
 
