@@ -184,30 +184,34 @@ Ready for extension into Phase C (messaging, notifications).
 
 
 
+
 # NUSTcord – Phase C
+
 This phase extends Phase B by introducing a **messaging system** inside servers and channels.  
 It allows users to send, store, and view messages, completing the core functionality of NUSTcord.
 
 ---
 
-## 🚀 Features Implemented
-### 1. Messaging
+## Features Implemented
+
+### Messaging
 - Users can send text messages inside channels.
 - Messages are linked to both the sender and the channel.
 - Each message is timestamped for ordering.
 
-### 2. Channel Chat View
+### Channel Chat View
 - Channels now display their message history.
 - New messages appear at the bottom of the chat.
 - Supports multiple users posting in the same channel.
 
-### 3. Database Integration
+### Database Integration
 - Messages are stored in the `messages` table.
 - Linked to `channels` and `users` via foreign keys.
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
+
 ```sql
 CREATE TABLE messages (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -218,8 +222,13 @@ CREATE TABLE messages (
   FOREIGN KEY (channel_id) REFERENCES channels(id),
   FOREIGN KEY (sender_id) REFERENCES users(id)
 );
- 
-📂 Project Structure
+```
+
+---
+
+## Project Structure
+
+```
 src/main/java/com/nustcord/
  ├── model/
  │    └── Message.java
@@ -231,13 +240,20 @@ src/main/java/com/nustcord/
       └── MessageServlet.java
 src/main/webapp/
  └── chat.jsp
- 
-🖥️ User Interface
-•	chat.jsp → Displays messages for a channel and allows posting new ones.
-•	Integrated into channelView.jsp with a link to open chat.
- 
-📸 Sketches
-Channel Chat View
+```
+
+---
+
+## User Interface
+- **chat.jsp** → Displays messages for a channel and allows posting new ones.
+- Integrated into `channelView.jsp` with a link to open chat.
+
+---
+
+## Sketches
+
+### Channel Chat View
+```
 Channel: General Chat
 ---------------------------------
 [User1] Hello everyone!
@@ -245,19 +261,27 @@ Channel: General Chat
 [User3] Let's start our discussion.
 ---------------------------------
 [ Message Input Box ] [ Send ]
-Data Flow
+```
+
+### Data Flow
+```
 User → MessageServlet → MessageService → MessageDAO → Database
 Database → MessageDAO → MessageService → chat.jsp → User
- 
-✅ Testing Checklist
-1.	Open a channel → chat.jsp loads messages from DB.
-2.	Send a message → appears in DB and UI.
-3.	Multiple users → messages ordered by timestamp.
-4.	Refresh → chat history persists.
-5.	Permissions → only server members can post.
- 
-📌 Notes
-•	Messaging is text based in Phase C.
-•	Future extension: add file sharing, reactions, or real time updates (AJAX/WebSockets).
-•	Completes the core functionality of NUSTcord across Phases A, B, and C.
-<img width="468" height="639" alt="image" src="https://github.com/user-attachments/assets/86de28bb-e7f9-4c80-89f8-70257f25b921" />
+```
+
+---
+
+## Testing Checklist
+1. Open a channel → chat.jsp loads messages from DB.
+2. Send a message → appears in DB and UI.
+3. Multiple users → messages ordered by timestamp.
+4. Refresh → chat history persists.
+5. Permissions → only server members can post.
+
+---
+
+## Notes
+- Messaging is text‑based in Phase C.
+- Future extension: add file sharing, reactions, or real‑time updates (AJAX/WebSockets).
+- Completes the core functionality of NUSTcord across Phases A, B, and C.
+```
