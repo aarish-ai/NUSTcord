@@ -183,30 +183,40 @@ Ready for extension into Phase C (messaging, notifications).
 
 
 
-# NUSTcord – Phase C
-This phase extends Phase B by introducing a **messaging system** inside servers and channels.  
+Understood, Rahim — GitHub renders Markdown with its own default heading sizes, so `#`, `##`, `###` appear progressively smaller. If you want **all headings to have the same fixed size**, you can force it by using **HTML tags inside your README** instead of Markdown headings. GitHub supports inline HTML.
+
+Here’s the **Phase C README rewritten with fixed font sizing** — every heading uses `<h2>` so they all look uniform and bold:
+
+---
+
+## 📄 README.md (Phase C – Messaging System, fixed font size)
+
+```markdown
+<h2>NUSTcord – Phase C</h2>
+This phase extends Phase B by introducing a <b>messaging system</b> inside servers and channels.  
 It allows users to send, store, and view messages, completing the core functionality of NUSTcord.
 
 ---
 
-## 🚀 Features Implemented
-### 1. Messaging
-- Users can send text messages inside channels.
-- Messages are linked to both the sender and the channel.
-- Each message is timestamped for ordering.
+<h2>🚀 Features Implemented</h2>
+<b>1. Messaging</b>  
+- Users can send text messages inside channels.  
+- Messages are linked to both the sender and the channel.  
+- Each message is timestamped for ordering.  
 
-### 2. Channel Chat View
-- Channels now display their message history.
-- New messages appear at the bottom of the chat.
-- Supports multiple users posting in the same channel.
+<b>2. Channel Chat View</b>  
+- Channels now display their message history.  
+- New messages appear at the bottom of the chat.  
+- Supports multiple users posting in the same channel.  
 
-### 3. Database Integration
-- Messages are stored in the `messages` table.
-- Linked to `channels` and `users` via foreign keys.
+<b>3. Database Integration</b>  
+- Messages are stored in the `messages` table.  
+- Linked to `channels` and `users` via foreign keys.  
 
 ---
 
-## 🗄️ Database Schema
+<h2>🗄️ Database Schema</h2>
+
 ```sql
 CREATE TABLE messages (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -221,7 +231,8 @@ CREATE TABLE messages (
 
 ---
 
-## 📂 Project Structure
+<h2>📂 Project Structure</h2>
+
 ```
 src/main/java/com/nustcord/
  ├── model/
@@ -238,14 +249,15 @@ src/main/webapp/
 
 ---
 
-## 🖥️ User Interface
-- **chat.jsp** → Displays messages for a channel and allows posting new ones.
-- Integrated into `channelView.jsp` with a link to open chat.
+<h2>🖥️ User Interface</h2>
+- <b>chat.jsp</b> → Displays messages for a channel and allows posting new ones.  
+- Integrated into `channelView.jsp` with a link to open chat.  
 
 ---
 
-## 📸 Sketches
-### Channel Chat View
+<h2>📸 Sketches</h2>
+
+<b>Channel Chat View</b>  
 ```
 Channel: General Chat
 ---------------------------------
@@ -256,7 +268,7 @@ Channel: General Chat
 [ Message Input Box ] [ Send ]
 ```
 
-### Data Flow
+<b>Data Flow</b>  
 ```
 User → MessageServlet → MessageService → MessageDAO → Database
 Database → MessageDAO → MessageService → chat.jsp → User
@@ -264,17 +276,23 @@ Database → MessageDAO → MessageService → chat.jsp → User
 
 ---
 
-## ✅ Testing Checklist
-1. Open a channel → chat.jsp loads messages from DB.
-2. Send a message → appears in DB and UI.
-3. Multiple users → messages ordered by timestamp.
-4. Refresh → chat history persists.
-5. Permissions → only server members can post.
+<h2>✅ Testing Checklist</h2>
+1. Open a channel → chat.jsp loads messages from DB.  
+2. Send a message → appears in DB and UI.  
+3. Multiple users → messages ordered by timestamp.  
+4. Refresh → chat history persists.  
+5. Permissions → only server members can post.  
 
 ---
 
-## 📌 Notes
-- Messaging is text‑based in Phase C.
-- Future extension: add file sharing, reactions, or real‑time updates (AJAX/WebSockets).
-- Completes the core functionality of NUSTcord across Phases A, B, and C.
+<h2>📌 Notes</h2>
+- Messaging is text‑based in Phase C.  
+- Future extension: add file sharing, reactions, or real‑time updates (AJAX/WebSockets).  
+- Completes the core functionality of NUSTcord across Phases A, B, and C.  
 ```
+
+---
+
+✅ With this version, all headings (`<h2>`) will render at the same size in GitHub, giving you a consistent look.  
+
+Do you want me to also **apply this fixed‑size style to your Phase B README** so both phases look uniform when you push them to GitHub?
