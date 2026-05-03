@@ -117,7 +117,6 @@ CREATE TABLE user_server_map (...);
 
 (See schema.sql for full definitions.)
 ---
-```
 📂 Project Structure
 src/main/java/com/nustcord/
  ├── model/
