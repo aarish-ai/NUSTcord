@@ -183,15 +183,6 @@ Ready for extension into Phase C (messaging, notifications).
 
 
 
-Understood, Rahim — GitHub renders Markdown with its own default heading sizes, so `#`, `##`, `###` appear progressively smaller. If you want **all headings to have the same fixed size**, you can force it by using **HTML tags inside your README** instead of Markdown headings. GitHub supports inline HTML.
-
-Here’s the **Phase C README rewritten with fixed font sizing** — every heading uses `<h2>` so they all look uniform and bold:
-
----
-
-## 📄 README.md (Phase C – Messaging System, fixed font size)
-
-```markdown
 <h2>NUSTcord – Phase C</h2>
 This phase extends Phase B by introducing a <b>messaging system</b> inside servers and channels.  
 It allows users to send, store, and view messages, completing the core functionality of NUSTcord.
@@ -291,8 +282,3 @@ Database → MessageDAO → MessageService → chat.jsp → User
 - Completes the core functionality of NUSTcord across Phases A, B, and C.  
 ```
 
----
-
-✅ With this version, all headings (`<h2>`) will render at the same size in GitHub, giving you a consistent look.  
-
-Do you want me to also **apply this fixed‑size style to your Phase B README** so both phases look uniform when you push them to GitHub?
