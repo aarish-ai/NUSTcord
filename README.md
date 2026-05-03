@@ -190,11 +190,11 @@ Server
 
 ---
 
-## 📌 Notes
+### 📌 Notes
 - No `web.xml` edits required (annotation‑based servlets).
 - Consistent modular design with Phase A.
 - Ready for extension into Phase C (messaging, notifications).
-```
+
 
 
 
