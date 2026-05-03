@@ -179,7 +179,7 @@ Ready for extension into Phase C (messaging, notifications).
 4. Run `mvn clean package` to build the `.war` file.
 5. Deploy the application using **Apache Tomcat**.
 6. Navigate to `http://localhost:8080/NUSTcord/login.jsp` to begin.
-
+---
 
 
 
