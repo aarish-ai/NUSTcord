@@ -78,6 +78,11 @@ Since this project uses Maven:
 
 
 
+
+
+
+
+
 # NUSTcord – Phase B
 This phase extends Phase A by introducing **server, channel, and role management** features.  
 It builds on the existing user, profile, and friends modules created in Phase A.
@@ -114,11 +119,14 @@ CREATE TABLE servers (...);
 CREATE TABLE channels (...);
 CREATE TABLE roles (...);
 CREATE TABLE user_server_map (...);
+```
 
-(See schema.sql for full definitions.)
+*(See `schema.sql` for full definitions.)*
+
 ---
 
-###📂 Project Structure
+## 📂 Project Structure
+```
 src/main/java/com/nustcord/
  ├── model/
  │    ├── Server.java
@@ -139,49 +147,56 @@ src/main/java/com/nustcord/
       ├── ChannelServlet.java
       └── RoleServlet.java
 ```
+
 ---
-###🖥️ User Interface
-serverList.jsp → List servers and create new ones.
-channelView.jsp → View and add channels for a server.
-serverSettings.jsp → Manage roles for a server.
-dashboard.jsp → Updated navigation with dynamic server links.
+
+## 🖥️ User Interface
+- **serverList.jsp** → List servers and create new ones.
+- **channelView.jsp** → View and add channels for a server.
+- **serverSettings.jsp** → Manage roles for a server.
+- **dashboard.jsp** → Updated navigation with dynamic server links.
+
 ---
-###📸 Sketches
-Dashboard Navigation
+
+## 📸 Sketches
+### Dashboard Navigation
+```
 [ Profile ] [ Friends ] [ Servers ]
     ├── Settings: Server A
     └── Channels: Server A
     ├── Settings: Server B
     └── Channels: Server B
 [ Logout ]
+```
 
-Server–Channel–Role Relationship
+### Server–Channel–Role Relationship
+```
 Server
  ├── Channel (Text)
  ├── Channel (Voice)
  └── Roles
       ├── Admin (kick, ban)
       └── Member (read, write)
+```
 
 ---
-###✅ Testing Checklist
-Create a server → appears in DB and UI.
-Add channels → linked to server.
-Add roles → visible in server settings.
-Dashboard → dynamic links for each server.
-Permissions → verify with RoleService.hasPermission().
----
-###📌 Notes
-No web.xml edits required (annotation‑based servlets).
-Consistent modular design with Phase A.
-Ready for extension into Phase C (messaging, notifications).
 
+## ✅ Testing Checklist
+1. Create a server → appears in DB and UI.
+2. Add channels → linked to server.
+3. Add roles → visible in server settings.
+4. Dashboard → dynamic links for each server.
+5. Permissions → verify with `RoleService.hasPermission()`.
 
-4. Run `mvn clean package` to build the `.war` file.
-5. Deploy the application using **Apache Tomcat**.
-6. Navigate to `http://localhost:8080/NUSTcord/login.jsp` to begin.
 ---
 
+## 📌 Notes
+- No `web.xml` edits required (annotation‑based servlets).
+- Consistent modular design with Phase A.
+- Ready for extension into Phase C (messaging, notifications).
+```
+
+---
 
 
 
