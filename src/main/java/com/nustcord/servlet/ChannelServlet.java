@@ -24,9 +24,26 @@ public class ChannelServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        int serverId = Integer.parseInt(req.getParameter("serverId"));
+        String serverIdParam = req.getParameter("serverId");
+        if (serverIdParam == null || serverIdParam.isEmpty()) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing serverId");
+            return;
+        }
+        int serverId;
+        try {
+            serverId = Integer.parseInt(serverIdParam);
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid serverId format");
+            return;
+        }
+
         String name = req.getParameter("name");
         String type = req.getParameter("type");
+        
+        if (name == null || type == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing channel parameters");
+            return;
+        }
 
         Channel channel = new Channel();
         channel.setServerId(serverId);

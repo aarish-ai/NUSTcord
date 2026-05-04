@@ -17,9 +17,10 @@ public class ServerDAO {
             stmt.setString(1, server.getName());
             stmt.setInt(2, server.getOwnerId());
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                server.setId(rs.getInt(1));
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    server.setId(rs.getInt(1));
+                }
             }
         }
     }
@@ -31,14 +32,15 @@ public class ServerDAO {
         List<Server> servers = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Server server = new Server();
-                server.setId(rs.getInt("id"));
-                server.setName(rs.getString("name"));
-                server.setOwnerId(rs.getInt("owner_id"));
-                server.setCreatedAt(rs.getTimestamp("created_at"));
-                servers.add(server);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Server server = new Server();
+                    server.setId(rs.getInt("id"));
+                    server.setName(rs.getString("name"));
+                    server.setOwnerId(rs.getInt("owner_id"));
+                    server.setCreatedAt(rs.getTimestamp("created_at"));
+                    servers.add(server);
+                }
             }
         }
         return servers;

@@ -26,6 +26,10 @@ public class ServerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String action = req.getParameter("action");
         HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("userId") == null) {
+            resp.sendRedirect("login.jsp");
+            return;
+        }
         int userId = (int) session.getAttribute("userId");
 
         try {

@@ -19,9 +19,10 @@ public class MessageDAO {
             stmt.setInt(2, message.getSenderId());
             stmt.setString(3, message.getContent());
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                message.setId(rs.getInt(1));
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    message.setId(rs.getInt(1));
+                }
             }
         }
     }
@@ -32,15 +33,16 @@ public class MessageDAO {
         List<Message> messages = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, channelId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Message msg = new Message();
-                msg.setId(rs.getInt("id"));
-                msg.setChannelId(rs.getInt("channel_id"));
-                msg.setSenderId(rs.getInt("sender_id"));
-                msg.setContent(rs.getString("content"));
-                msg.setCreatedAt(rs.getTimestamp("created_at"));
-                messages.add(msg);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Message msg = new Message();
+                    msg.setId(rs.getInt("id"));
+                    msg.setChannelId(rs.getInt("channel_id"));
+                    msg.setSenderId(rs.getInt("sender_id"));
+                    msg.setContent(rs.getString("content"));
+                    msg.setCreatedAt(rs.getTimestamp("created_at"));
+                    messages.add(msg);
+                }
             }
         }
         return messages;

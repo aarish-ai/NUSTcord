@@ -26,10 +26,11 @@ public class UserDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new User(rs.getInt("id"), rs.getString("username"), 
-                                rs.getString("email"), rs.getString("password_hash"), rs.getTimestamp("created_at"));
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new User(rs.getInt("id"), rs.getString("username"), 
+                                    rs.getString("email"), rs.getString("password_hash"), rs.getTimestamp("created_at"));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,10 +43,11 @@ public class UserDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new User(rs.getInt("id"), rs.getString("username"), 
-                                rs.getString("email"), rs.getString("password_hash"), rs.getTimestamp("created_at"));
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new User(rs.getInt("id"), rs.getString("username"), 
+                                    rs.getString("email"), rs.getString("password_hash"), rs.getTimestamp("created_at"));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

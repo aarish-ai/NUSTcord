@@ -19,9 +19,10 @@ public class ChannelDAO {
             stmt.setString(2, channel.getName());
             stmt.setString(3, channel.getType().name());
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                channel.setId(rs.getInt(1));
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    channel.setId(rs.getInt(1));
+                }
             }
         }
     }
@@ -31,15 +32,16 @@ public class ChannelDAO {
         List<Channel> channels = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, serverId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Channel channel = new Channel();
-                channel.setId(rs.getInt("id"));
-                channel.setServerId(rs.getInt("server_id"));
-                channel.setName(rs.getString("name"));
-                channel.setType(ChannelType.valueOf(rs.getString("type")));
-                channel.setCreatedAt(rs.getTimestamp("created_at"));
-                channels.add(channel);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Channel channel = new Channel();
+                    channel.setId(rs.getInt("id"));
+                    channel.setServerId(rs.getInt("server_id"));
+                    channel.setName(rs.getString("name"));
+                    channel.setType(ChannelType.valueOf(rs.getString("type")));
+                    channel.setCreatedAt(rs.getTimestamp("created_at"));
+                    channels.add(channel);
+                }
             }
         }
         return channels;

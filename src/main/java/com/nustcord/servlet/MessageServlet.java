@@ -26,9 +26,30 @@ public class MessageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("userId") == null) {
+            resp.sendRedirect("login.jsp");
+            return;
+        }
         int senderId = (int) session.getAttribute("userId");
-        int channelId = Integer.parseInt(req.getParameter("channelId"));
+
+        String channelIdParam = req.getParameter("channelId");
+        if (channelIdParam == null || channelIdParam.isEmpty()) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing channelId");
+            return;
+        }
+        int channelId;
+        try {
+            channelId = Integer.parseInt(channelIdParam);
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid channelId format");
+            return;
+        }
+
         String content = req.getParameter("content");
+        if (content == null || content.trim().isEmpty()) {
+            resp.sendRedirect("chat.jsp?channelId=" + channelId + "&error=empty_message");
+            return;
+        }
 
         Message msg = new Message();
         msg.setSenderId(senderId);
@@ -46,7 +67,18 @@ public class MessageServlet extends HttpServlet {
     // Handle retrieving messages for a channel
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        int channelId = Integer.parseInt(req.getParameter("channelId"));
+        String channelIdParam = req.getParameter("channelId");
+        if (channelIdParam == null || channelIdParam.isEmpty()) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing channelId");
+            return;
+        }
+        int channelId;
+        try {
+            channelId = Integer.parseInt(channelIdParam);
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid channelId format");
+            return;
+        }
         try {
             List<Message> messages = messageService.getMessages(channelId);
             req.setAttribute("messages", messages);

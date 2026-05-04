@@ -18,9 +18,10 @@ public class RoleDAO {
             stmt.setString(2, role.getName());
             stmt.setString(3, role.getPermissions());
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                role.setId(rs.getInt(1));
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    role.setId(rs.getInt(1));
+                }
             }
         }
     }
@@ -30,14 +31,15 @@ public class RoleDAO {
         List<Role> roles = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, serverId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Role role = new Role();
-                role.setId(rs.getInt("id"));
-                role.setServerId(rs.getInt("server_id"));
-                role.setName(rs.getString("name"));
-                role.setPermissions(rs.getString("permissions"));
-                roles.add(role);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Role role = new Role();
+                    role.setId(rs.getInt("id"));
+                    role.setServerId(rs.getInt("server_id"));
+                    role.setName(rs.getString("name"));
+                    role.setPermissions(rs.getString("permissions"));
+                    roles.add(role);
+                }
             }
         }
         return roles;

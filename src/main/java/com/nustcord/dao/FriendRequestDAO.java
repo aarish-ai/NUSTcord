@@ -43,15 +43,16 @@ public class FriendRequestDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, requestId);
-            ResultSet rs = stmt.executeQuery();
-             if (rs.next()) {
-                FriendRequest r = new FriendRequest();
-                r.setId(rs.getInt("id"));
-                r.setSenderId(rs.getInt("sender_id"));
-                r.setReceiverId(rs.getInt("receiver_id"));
-                r.setStatus(rs.getString("status"));
-                return r;
-             }
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    FriendRequest r = new FriendRequest();
+                    r.setId(rs.getInt("id"));
+                    r.setSenderId(rs.getInt("sender_id"));
+                    r.setReceiverId(rs.getInt("receiver_id"));
+                    r.setStatus(rs.getString("status"));
+                    return r;
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,14 +65,15 @@ public class FriendRequestDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, receiverId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                FriendRequest r = new FriendRequest();
-                r.setId(rs.getInt("id"));
-                r.setSenderId(rs.getInt("sender_id"));
-                r.setReceiverId(rs.getInt("receiver_id"));
-                r.setStatus(rs.getString("status"));
-                requests.add(r);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    FriendRequest r = new FriendRequest();
+                    r.setId(rs.getInt("id"));
+                    r.setSenderId(rs.getInt("sender_id"));
+                    r.setReceiverId(rs.getInt("receiver_id"));
+                    r.setStatus(rs.getString("status"));
+                    requests.add(r);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,14 +87,15 @@ public class FriendRequestDAO {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, senderId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                FriendRequest r = new FriendRequest();
-                r.setId(rs.getInt("id"));
-                r.setSenderId(rs.getInt("sender_id"));
-                r.setReceiverId(rs.getInt("receiver_id"));
-                r.setStatus(rs.getString("status"));
-                requests.add(r);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    FriendRequest r = new FriendRequest();
+                    r.setId(rs.getInt("id"));
+                    r.setSenderId(rs.getInt("sender_id"));
+                    r.setReceiverId(rs.getInt("receiver_id"));
+                    r.setStatus(rs.getString("status"));
+                    requests.add(r);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
