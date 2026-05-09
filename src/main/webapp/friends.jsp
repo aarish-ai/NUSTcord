@@ -12,7 +12,8 @@
 <html>
 <head>
     <title>NUSTcord - Friends</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
@@ -68,6 +69,7 @@
                                             <div style="width: 32px; height: 32px; border-radius: 50%; background-color: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-weight: bold;"><%= friendName.substring(0, 1).toUpperCase() %></div>
                                             <span><%= friendName %></span>
                                         </div>
+                                        <a href="directMessage?friendId=<%= friendId %>" class="btn btn-sm" style="background-color: var(--bg-base); border: 1px solid var(--bg-hover); padding: 6px 10px;" title="Message"><i class="fas fa-comment"></i></a>
                                     </div>
                                 <%  } %>
                                 </div>
@@ -124,3 +126,4 @@
 </div>
 </body>
 </html>
+

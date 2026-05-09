@@ -7,7 +7,20 @@
     Integer userId = (Integer) session.getAttribute("userId");
     if (userId == null) { response.sendRedirect("login.jsp"); return; }
 
-    int serverId = Integer.parseInt(request.getParameter("serverId"));
+    String serverIdParam = request.getParameter("serverId");
+    if (serverIdParam == null || serverIdParam.isEmpty()) {
+        response.sendRedirect("dashboard.jsp");
+        return;
+    }
+    
+    int serverId = 0;
+    try {
+        serverId = Integer.parseInt(serverIdParam);
+    } catch (NumberFormatException e) {
+        response.sendRedirect("dashboard.jsp");
+        return;
+    }
+    
     RoleService roleService = new RoleService(new RoleDAO());
     List<Role> roles = roleService.getRoles(serverId);
 %>
@@ -15,7 +28,8 @@
 <html>
 <head>
     <title>NUSTcord - Server Settings</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
@@ -62,3 +76,4 @@
 </div>
 </body>
 </html>
+

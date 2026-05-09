@@ -10,8 +10,23 @@
     Integer userId = (Integer) session.getAttribute("userId");
     if (userId == null) { response.sendRedirect("login.jsp"); return; }
 
-    int serverId = Integer.parseInt(request.getParameter("serverId"));
-    int channelId = Integer.parseInt(request.getParameter("channelId"));
+    String serverIdParam = request.getParameter("serverId");
+    String channelIdParam = request.getParameter("channelId");
+    
+    if (serverIdParam == null || serverIdParam.isEmpty() || channelIdParam == null || channelIdParam.isEmpty()) {
+        response.sendRedirect("dashboard.jsp");
+        return;
+    }
+
+    int serverId = 0;
+    int channelId = 0;
+    try {
+        serverId = Integer.parseInt(serverIdParam);
+        channelId = Integer.parseInt(channelIdParam);
+    } catch (NumberFormatException e) {
+        response.sendRedirect("dashboard.jsp");
+        return;
+    }
 
     // Need channels for the sidebar
     ChannelService channelService = new ChannelService(new ChannelDAO());
@@ -34,7 +49,8 @@
 <html>
 <head>
     <title>NUSTcord - Chat</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         // Auto-scroll to bottom of chat
         window.onload = function() {
@@ -90,3 +106,4 @@
     </div>
 </body>
 </html>
+

@@ -22,3 +22,4 @@
         <a href="LogoutServlet" title="Logout" style="color: var(--danger-red); text-decoration: none;">🚪</a>
     </div>
 </div>
+

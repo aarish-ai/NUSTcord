@@ -1,4 +1,5 @@
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\dao\ChannelDAO.java
+C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\dao\DirectMessageDAO.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\dao\FriendRequestDAO.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\dao\FriendsDAO.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\dao\MessageDAO.java
@@ -13,6 +14,7 @@ C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\fi
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\listener\AppInitListener.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\model\Channel.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\model\ChannelType.java
+C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\model\DirectMessage.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\model\Friend.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\model\FriendRequest.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\model\Message.java
@@ -23,13 +25,16 @@ C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\mo
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\model\UserStatus.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\service\AuthService.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\service\ChannelService.java
+C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\service\DirectMessageService.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\service\FriendService.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\service\MessageService.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\service\ProfileService.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\service\RoleService.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\service\ServerService.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\servlet\ChannelServlet.java
+C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\servlet\DirectMessageServlet.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\servlet\FriendServlet.java
+C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\servlet\JoinServerServlet.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\servlet\LoginServlet.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\servlet\LogoutServlet.java
 C:\Users\DELL\.gemini\antigravity\scratch\NUSTcord\src\main\java\com\nustcord\servlet\MessageServlet.java

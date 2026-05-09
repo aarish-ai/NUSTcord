@@ -4,7 +4,7 @@
 
 ## Tech Stack
 *   **Backend**: Java 11, Servlets 4.0
-*   **Database**: MySQL (accessed via native JDBC)
+*   **Database**: Embedded H2 Database (File-based)
 *   **Frontend**: HTML, CSS, JSP
 *   **Security**: jBCrypt (Password Hashing)
 *   **Build Tool**: Maven
@@ -53,14 +53,14 @@ NUSTcord/
 
 ### 4. Channels & Messaging
 *   **Channels**: Servers support multiple distinct communication channels categorized into **Text Channels** (for chat messages) and **Voice Channels** (for audio rooms).
-*   **Chat System**: Text channels feature a messaging system where users can send messages. These are time-stamped and ordered chronologically to maintain history.
-*   **Chat View**: Dedicated views dynamically load historical messages and allow seamless posting for members of the channel.
+*   **Direct Messaging**: A persistent, private messaging system allowing bidirectional, 1-on-1 chats with friends.
+*   **Chat System**: Both Text Channels and Direct Messages feature real-time chat with message histories fetched and ordered dynamically.
 
 ## Database Schema
-The backend operates on a tightly-coupled relational database (`nustcord_db`). Key tables include:
+The backend operates on a tightly-coupled relational embedded H2 database (`nustcord_db`). Key tables include:
 *   `users`, `profiles`, `user_status`
 *   `friend_requests`, `friends`
-*   `servers`, `channels`, `messages`
+*   `servers`, `channels`, `messages`, `direct_messages`
 *   `roles`, `user_server_map`
 
 *(The complete schema definition with constraints and relations can be found in `schema.sql`)*.
@@ -70,9 +70,8 @@ The backend operates on a tightly-coupled relational database (`nustcord_db`). K
 Please refer to the detailed [Setup.md](Setup.md) for a comprehensive, step-by-step guide to installing and running the application using Java JDK, Tomcat 9, and Maven.
 
 ### Quick Start
-1. Ensure MySQL is installed and running.
-2. Execute the included `schema.sql` file to build the database structure.
-3. Update the `DBConnection.java` file in the `util` package to match your local MySQL credentials.
-4. Run `mvn clean package` in the project root to pull libraries and construct the `.war` configuration.
+1. The project uses an embedded H2 database, requiring zero local DB installation.
+2. Execute the included `TestDB.java` utility to initialize the `schema.sql` database tables.
+3. Run `mvn clean package` in the project root to pull libraries and construct the `.war` configuration.
 5. Deploy the application to an application server, such as **Apache Tomcat 9+**.
 6. Navigate to `http://localhost:8080/NUSTcord/login.jsp` to access the application.

@@ -1,3 +1,4 @@
+com\nustcord\service\DirectMessageService.class
 com\nustcord\servlet\RegisterServlet.class
 com\nustcord\util\TestDB.class
 com\nustcord\dao\ChannelDAO.class
@@ -14,6 +15,7 @@ com\nustcord\model\FriendRequest.class
 com\nustcord\servlet\RoleServlet.class
 com\nustcord\listener\AppInitListener.class
 com\nustcord\dao\ServerDAO.class
+com\nustcord\servlet\JoinServerServlet.class
 com\nustcord\service\RoleService.class
 com\nustcord\servlet\StatusServlet.class
 com\nustcord\exception\AuthException.class
@@ -27,9 +29,12 @@ com\nustcord\servlet\ChannelServlet.class
 com\nustcord\util\DBConnection.class
 com\nustcord\dao\FriendsDAO.class
 com\nustcord\service\ProfileService.class
+com\nustcord\model\DirectMessage.class
 com\nustcord\service\ChannelService.class
 com\nustcord\model\Server.class
 com\nustcord\servlet\LogoutServlet.class
+com\nustcord\dao\DirectMessageDAO.class
+com\nustcord\servlet\DirectMessageServlet.class
 com\nustcord\model\Channel.class
 com\nustcord\model\Friend.class
 com\nustcord\dao\FriendRequestDAO.class

@@ -43,4 +43,22 @@ public class ServerDAO {
         }
         return servers;
     }
+
+    public List<Server> getAllServers() throws SQLException {
+        String sql = "SELECT * FROM servers ORDER BY created_at DESC";
+        List<Server> servers = new ArrayList<>();
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Server server = new Server();
+                server.setId(rs.getInt("id"));
+                server.setName(rs.getString("name"));
+                server.setOwnerId(rs.getInt("owner_id"));
+                server.setCreatedAt(rs.getTimestamp("created_at"));
+                servers.add(server);
+            }
+        }
+        return servers;
+    }
 }

@@ -7,7 +7,20 @@
     Integer userId = (Integer) session.getAttribute("userId");
     if (userId == null) { response.sendRedirect("login.jsp"); return; }
     
-    int serverId = Integer.parseInt(request.getParameter("serverId"));
+    String serverIdParam = request.getParameter("serverId");
+    if (serverIdParam == null || serverIdParam.isEmpty()) {
+        response.sendRedirect("dashboard.jsp");
+        return;
+    }
+    
+    int serverId = 0;
+    try {
+        serverId = Integer.parseInt(serverIdParam);
+    } catch (NumberFormatException e) {
+        response.sendRedirect("dashboard.jsp");
+        return;
+    }
+    
     ChannelService channelService = new ChannelService(new ChannelDAO());
     List<Channel> channels = channelService.getChannels(serverId);
 %>
@@ -15,7 +28,8 @@
 <html>
 <head>
     <title>NUSTcord - Server</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
@@ -37,3 +51,4 @@
 </div>
 </body>
 </html>
+

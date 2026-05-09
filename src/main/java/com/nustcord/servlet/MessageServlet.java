@@ -50,6 +50,8 @@ public class MessageServlet extends HttpServlet {
             return;
         }
 
+        String serverIdParam = req.getParameter("serverId");
+        
         Message msg = new Message();
         msg.setSenderId(senderId);
         msg.setChannelId(channelId);
@@ -57,7 +59,11 @@ public class MessageServlet extends HttpServlet {
 
         try {
             messageService.sendMessage(msg);
-            resp.sendRedirect("chat.jsp?channelId=" + channelId);
+            String redirectUrl = "message?channelId=" + channelId;
+            if (serverIdParam != null && !serverIdParam.isEmpty()) {
+                redirectUrl += "&serverId=" + serverIdParam;
+            }
+            resp.sendRedirect(redirectUrl);
         } catch (SQLException e) {
             throw new ServletException(e);
         }
@@ -81,6 +87,10 @@ public class MessageServlet extends HttpServlet {
         try {
             List<Message> messages = messageService.getMessages(channelId);
             req.setAttribute("messages", messages);
+            String serverIdParam = req.getParameter("serverId");
+            if (serverIdParam != null && !serverIdParam.isEmpty()) {
+                req.setAttribute("serverId", serverIdParam);
+            }
             req.getRequestDispatcher("chat.jsp").forward(req, resp);
         } catch (SQLException e) {
             throw new ServletException(e);
