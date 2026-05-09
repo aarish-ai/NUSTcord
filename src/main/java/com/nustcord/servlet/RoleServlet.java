@@ -17,8 +17,7 @@ public class RoleServlet extends HttpServlet {
 
     @Override
     public void init() {
-        Connection conn = (Connection) getServletContext().getAttribute("DBConnection");
-        roleService = new RoleService(new RoleDAO(conn));
+        roleService = new RoleService(new RoleDAO());
     }
 
     @Override

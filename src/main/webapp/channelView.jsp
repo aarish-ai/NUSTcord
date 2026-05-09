@@ -1,44 +1,39 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.nustcord.model.Channel" %>
 <%@ page import="com.nustcord.service.ChannelService" %>
 <%@ page import="com.nustcord.dao.ChannelDAO" %>
 <%
+    Integer userId = (Integer) session.getAttribute("userId");
+    if (userId == null) { response.sendRedirect("login.jsp"); return; }
+    
     int serverId = Integer.parseInt(request.getParameter("serverId"));
-    Connection conn = (Connection) application.getAttribute("DBConnection");
-    ChannelService channelService = new ChannelService(new ChannelDAO(conn));
+    ChannelService channelService = new ChannelService(new ChannelDAO());
     List<Channel> channels = channelService.getChannels(serverId);
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Channels</title>
+    <title>NUSTcord - Server</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-    <div class="container container-large">
-        <h2>Channels</h2>
-        <ul>
-            <% for(Channel c : channels) { %>
-                <li>
-                    <strong><%= c.getName() %></strong> (<%= c.getType() %>)
-                    <!-- Link to chat.jsp for this channel -->
-                    <a href="message?channelId=<%= c.getId() %>&serverId=<%= serverId %>">Open Chat</a>
-                </li>
-            <% } %>
-        </ul>
+    <div class="app-container">
+        <jsp:include page="includes/top-nav.jsp" />
+        
+        <div class="main-wrapper">
+            <jsp:include page="includes/left-sidebar.jsp" />
 
-        <h3>Add a New Channel</h3>
-        <form action="channel" method="post" style="display: flex; gap: 10px; margin-top: 10px;">
-            <input type="hidden" name="serverId" value="<%=serverId%>"/>
-            <input type="text" name="name" placeholder="Channel Name" style="flex-grow: 1;"/>
-            <select name="type">
-                <option value="TEXT">Text</option>
-                <option value="VOICE">Voice</option>
-            </select>
-            <button type="submit" class="btn">Add Channel</button>
-        </form>
-
-        <p><a href="serverSettings.jsp?serverId=<%=serverId%>">Back to Server Settings</a></p>
+            <div class="main-content">
+            <div class="main-header">
+                Welcome to the Server
+            </div>
+            <div class="content-body" style="display:flex; justify-content:center; align-items:center; flex-direction:column; color:var(--text-muted); height:100%;">
+                <h2 style="color: var(--text-muted);">Welcome!</h2>
+                <p>Select a channel on the left to start chatting.</p>
+            </div>
+        </div>
     </div>
+</div>
 </body>
 </html>

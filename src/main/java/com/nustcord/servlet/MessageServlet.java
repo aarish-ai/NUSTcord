@@ -18,8 +18,7 @@ public class MessageServlet extends HttpServlet {
 
     @Override
     public void init() {
-        Connection conn = (Connection) getServletContext().getAttribute("DBConnection");
-        messageService = new MessageService(new MessageDAO(conn));
+        messageService = new MessageService(new MessageDAO());
     }
 
     // Handle sending a new message

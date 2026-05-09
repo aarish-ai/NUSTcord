@@ -18,8 +18,7 @@ public class ChannelServlet extends HttpServlet {
 
     @Override
     public void init() {
-        Connection conn = (Connection) getServletContext().getAttribute("DBConnection");
-        channelService = new ChannelService(new ChannelDAO(conn));
+        channelService = new ChannelService(new ChannelDAO());
     }
 
     @Override

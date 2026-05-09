@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS friends (
 
 -- === Rahim's Part: Servers, Channels, Roles ===
 
-CREATE TABLE servers (
+CREATE TABLE IF NOT EXISTS servers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     owner_id INT NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE servers (
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE channels (
+CREATE TABLE IF NOT EXISTS channels (
     id INT AUTO_INCREMENT PRIMARY KEY,
     server_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE channels (
     FOREIGN KEY (server_id) REFERENCES servers(id) ON DELETE CASCADE
 );
 
-CREATE TABLE roles (
+CREATE TABLE IF NOT EXISTS roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     server_id INT NOT NULL,
     name VARCHAR(50) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE roles (
     FOREIGN KEY (server_id) REFERENCES servers(id) ON DELETE CASCADE
 );
 
-CREATE TABLE user_server_map (
+CREATE TABLE IF NOT EXISTS user_server_map (
     user_id INT NOT NULL,
     server_id INT NOT NULL,
     role_id INT,
@@ -77,5 +77,15 @@ CREATE TABLE user_server_map (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (server_id) REFERENCES servers(id) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    channel_id INT NOT NULL,
+    sender_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (channel_id) REFERENCES channels(id) ON DELETE CASCADE,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

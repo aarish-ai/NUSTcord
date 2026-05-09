@@ -1,0 +1,12 @@
+2026-05-09 12:25:21.642839+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "servers" not found; SQL statement:
+SELECT s.* FROM servers s JOIN user_server_map usm ON s.id = usm.server_id WHERE usm.user_id = ? [42102-224]
+2026-05-09 12:25:30.919038+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "servers" not found; SQL statement:
+SELECT s.* FROM servers s JOIN user_server_map usm ON s.id = usm.server_id WHERE usm.user_id = ? [42102-224]
+2026-05-09 12:25:47.111366+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "servers" not found; SQL statement:
+SELECT s.* FROM servers s JOIN user_server_map usm ON s.id = usm.server_id WHERE usm.user_id = ? [42102-224]
+2026-05-09 14:11:29.505996+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "messages" not found; SQL statement:
+SELECT * FROM messages WHERE channel_id = ? ORDER BY created_at ASC [42102-224]

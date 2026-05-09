@@ -2,20 +2,20 @@
 
 **NUSTcord** is a comprehensive, Java-based Object-Oriented web application designed to simulate a structured communication and networking platform. It emphasizes clean code architecture, database security, and modularity without relying on heavy frameworks like Spring Boot. The platform enables secure user interactions, friend networking, server creation, channel-based discussions, and role-based access management.
 
-## 🚀 Tech Stack
+## Tech Stack
 *   **Backend**: Java 11, Servlets 4.0
 *   **Database**: MySQL (accessed via native JDBC)
 *   **Frontend**: HTML, CSS, JSP
 *   **Security**: jBCrypt (Password Hashing)
 *   **Build Tool**: Maven
 
-## 🎨 UI Theme
+## UI Theme
 The frontend implements a modern, card-based aesthetic utilizing a strict color scheme:
 *   **Black** (`#121212`) for depth and background.
 *   **Silver** (`#e0e0e0`) for clear, readable typography.
 *   **Purple** (`#8a2be2`) as the dynamic accent color.
 
-## 🏗️ Architecture
+## Architecture
 The project strictly follows a layered architecture to maintain high cohesion and low coupling. Most files are kept strictly under 80 lines to emphasize modularity.
 
 ```
@@ -33,7 +33,7 @@ NUSTcord/
     ├── (JSPs)       # Dynamic frontend views (chat, dashboard, serverList, etc.)
 ```
 
-## ✨ Core Features
+## Core Features
 
 ### 1. Secure Authentication & User Identity
 *   **Registration**: Users register with a unique username, email, and password.
@@ -56,7 +56,7 @@ NUSTcord/
 *   **Chat System**: Text channels feature a messaging system where users can send messages. These are time-stamped and ordered chronologically to maintain history.
 *   **Chat View**: Dedicated views dynamically load historical messages and allow seamless posting for members of the channel.
 
-## 🗄️ Database Schema
+## Database Schema
 The backend operates on a tightly-coupled relational database (`nustcord_db`). Key tables include:
 *   `users`, `profiles`, `user_status`
 *   `friend_requests`, `friends`
@@ -65,7 +65,7 @@ The backend operates on a tightly-coupled relational database (`nustcord_db`). K
 
 *(The complete schema definition with constraints and relations can be found in `schema.sql`)*.
 
-## 🛠️ Setup & Installation
+## Setup & Installation
 
 Please refer to the detailed [Setup.md](Setup.md) for a comprehensive, step-by-step guide to installing and running the application using Java JDK, Tomcat 9, and Maven.
 

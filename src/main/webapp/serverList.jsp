@@ -1,27 +1,42 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.nustcord.model.Server" %>
-<%@ page import="com.nustcord.service.ServerService" %>
-<%@ page import="com.nustcord.dao.ServerDAO" %>
-<%@ page import="com.nustcord.dao.UserServerMapDAO" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    int userId = (int) session.getAttribute("userId");
-    Connection conn = (Connection) application.getAttribute("DBConnection");
-    ServerService serverService = new ServerService(new ServerDAO(conn), new UserServerMapDAO(conn));
-    List<Server> servers = serverService.getUserServers(userId);
+    Integer userId = (Integer) session.getAttribute("userId");
+    if (userId == null) { response.sendRedirect("login.jsp"); return; }
 %>
+<!DOCTYPE html>
 <html>
-<head><title>Servers</title></head>
+<head>
+    <title>NUSTcord - Add Server</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
 <body>
-<h2>Your Servers</h2>
-<ul>
-<% for(Server s : servers) { %>
-    <li><a href="channelView.jsp?serverId=<%=s.getId()%>"><%=s.getName()%></a></li>
-<% } %>
-</ul>
-<form action="server" method="post">
-    <input type="text" name="name" placeholder="New Server Name"/>
-    <input type="hidden" name="action" value="create"/>
-    <button type="submit">Create Server</button>
-</form>
+    <div class="app-container">
+        <jsp:include page="includes/top-nav.jsp" />
+        
+        <div class="main-wrapper">
+            <jsp:include page="includes/left-sidebar.jsp" />
+
+            <div class="main-content">
+            <div class="main-header">
+                Create a Server
+            </div>
+            <div class="content-body" style="display: flex; justify-content: center; padding-top: 50px;">
+                <div class="card" style="width: 100%; max-width: 450px; background-color: var(--bg-base); text-align: center;">
+                    <h2 style="margin-bottom: 10px;">Create Your Server</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 14px;">Your server is where you and your friends hang out. Make yours and start talking.</p>
+                    
+                    <form action="server" method="post" style="text-align: left;">
+                        <div class="form-group">
+                            <label>Server Name</label>
+                            <input type="text" name="name" placeholder="E.g. Gaming Lounge" required autofocus>
+                        </div>
+                        <input type="hidden" name="action" value="create"/>
+                        <button type="submit" class="btn btn-block" style="margin-top: 20px;">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

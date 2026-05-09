@@ -1,4 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.nustcord.model.FriendRequest" %>
+<%@ page import="com.nustcord.dao.FriendRequestDAO" %>
+<%@ page import="com.nustcord.dao.UserDAO" %>
+<%@ page import="com.nustcord.model.User" %>
+<%
+    Integer userId = (Integer) session.getAttribute("userId");
+    if (userId == null) { response.sendRedirect("login.jsp"); return; }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,135 +15,112 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-    <div class="container container-large">
-        <div class="nav">
-            <span style="font-weight: bold; color: var(--accent-purple);">NUSTcord</span>
-            <div>
-                <a href="dashboard.jsp">Dashboard</a> | 
-                <a href="profile.jsp">Profile</a> | 
-                <a href="friends.jsp">Friends</a> | 
-                <a href="LogoutServlet">Logout</a>
+    <div class="app-container">
+        <jsp:include page="includes/top-nav.jsp" />
+        
+        <div class="main-wrapper">
+            <jsp:include page="includes/left-sidebar.jsp" />
+
+            <div class="main-content">
+            <div class="main-header">
+                <span style="font-weight: bold; margin-right: 20px;">Friends</span>
+            </div>
+            <div class="content-body">
+                <% if (request.getParameter("error") != null) { %>
+                    <div class="message-alert error"><%= request.getParameter("error") %></div>
+                <% } %>
+                <% if (request.getParameter("success") != null) { %>
+                    <div class="message-alert success"><%= request.getParameter("success") %></div>
+                <% } %>
+
+                <div class="card" style="display: flex; gap: 10px; padding: 15px;">
+                    <form action="FriendServlet" method="POST" style="display: flex; width: 100%; gap: 10px;">
+                        <input type="hidden" name="action" value="send">
+                        <input type="text" name="receiverUsername" placeholder="You can add a friend with their username." required style="flex-grow: 1;">
+                        <button type="submit" class="btn btn-sm">Send Friend Request</button>
+                    </form>
+                </div>
+
+                <div style="display: flex; gap: 20px;">
+                    <!-- Left Column: Friends List -->
+                    <div style="flex: 1;">
+                        <h3 class="category-title" style="margin-left: 0;">All Friends</h3>
+                        <div class="card" style="padding: 10px;">
+                            <% 
+                                com.nustcord.dao.FriendsDAO fdao = new com.nustcord.dao.FriendsDAO();
+                                List<com.nustcord.model.Friend> friends = fdao.getFriendsForUser(userId);
+                                UserDAO userDao = new UserDAO();
+                                if (friends.isEmpty()) {
+                            %>
+                                <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+                                    You don't have any friends yet. Add some!
+                                </div>
+                            <% } else { %>
+                                <div style="display: flex; flex-direction: column; gap: 5px;">
+                                <%
+                                    for (com.nustcord.model.Friend f : friends) {
+                                        int friendId = (f.getUserId1() == userId) ? f.getUserId2() : f.getUserId1();
+                                        User friendUser = userDao.getUserById(friendId);
+                                        String friendName = (friendUser != null) ? friendUser.getUsername() : "Unknown User";
+                                %>
+                                    <div class="list-item" style="justify-content: space-between; padding: 10px; cursor: default;">
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <div style="width: 32px; height: 32px; border-radius: 50%; background-color: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-weight: bold;"><%= friendName.substring(0, 1).toUpperCase() %></div>
+                                            <span><%= friendName %></span>
+                                        </div>
+                                    </div>
+                                <%  } %>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Pending Requests -->
+                    <div style="flex: 1;">
+                        <h3 class="category-title" style="margin-left: 0;">Pending Requests</h3>
+                        <div class="card" style="padding: 10px;">
+                            <% 
+                                FriendRequestDAO reqDao = new FriendRequestDAO();
+                                List<FriendRequest> requests = reqDao.getPendingRequestsByReceiver(userId);
+                                if (requests.isEmpty()) {
+                            %>
+                                <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+                                    No incoming requests.
+                                </div>
+                            <% } else { %>
+                                <div style="display: flex; flex-direction: column; gap: 5px;">
+                                <%
+                                    for (FriendRequest req : requests) {
+                                        User senderUser = userDao.getUserById(req.getSenderId());
+                                        String senderName = (senderUser != null) ? senderUser.getUsername() : "Unknown User";
+                                %>
+                                    <div class="list-item" style="justify-content: space-between; padding: 10px; cursor: default; background-color: var(--bg-base);">
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <div style="width: 32px; height: 32px; border-radius: 50%; background-color: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-weight: bold;"><%= senderName.substring(0, 1).toUpperCase() %></div>
+                                            <span><%= senderName %></span>
+                                        </div>
+                                        <div style="display: flex; gap: 5px;">
+                                            <form action="FriendServlet" method="POST">
+                                                <input type="hidden" name="action" value="accept">
+                                                <input type="hidden" name="requestId" value="<%= req.getId() %>"> 
+                                                <button type="submit" class="btn btn-sm btn-success">✓</button>
+                                            </form>
+                                            <form action="FriendServlet" method="POST">
+                                                <input type="hidden" name="action" value="reject">
+                                                <input type="hidden" name="requestId" value="<%= req.getId() %>">
+                                                <button type="submit" class="btn btn-sm btn-danger">✕</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <%  } %>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <h2>Friends System</h2>
-        
-        <% if (request.getParameter("error") != null) { %>
-            <div class="message error"><%= request.getParameter("error") %></div>
-        <% } %>
-        <% if (request.getParameter("success") != null) { %>
-            <div class="message success"><%= request.getParameter("success") %></div>
-        <% } %>
-
-        <div style="background: #2a2a30; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-            <h3>Send Friend Request</h3>
-            <form action="FriendServlet" method="POST" style="display: flex; gap: 10px;">
-                <input type="hidden" name="action" value="send">
-                <input type="text" name="receiverUsername" placeholder="Receiver Username" required style="width: auto; flex-grow: 1;">
-                <button type="submit" class="btn" style="width: auto; margin-top: 0;">Send Request</button>
-            </form>
-        </div>
-        
-<%@ page import="java.util.List" %>
-<%@ page import="com.nustcord.model.FriendRequest" %>
-<%@ page import="com.nustcord.dao.FriendRequestDAO" %>
-<%@ page import="com.nustcord.dao.UserDAO" %>
-<%@ page import="com.nustcord.model.User" %>
-
-        <div style="background: #2a2a30; padding: 15px; border-radius: 5px;">
-            <h3>Incoming Requests</h3>
-            <% 
-                Integer userId = (Integer) session.getAttribute("userId");
-                if (userId != null) {
-                    FriendRequestDAO reqDao = new FriendRequestDAO();
-                    UserDAO userDao = new UserDAO();
-                    List<FriendRequest> requests = reqDao.getPendingRequestsByReceiver(userId);
-                    
-                    if (requests.isEmpty()) {
-            %>
-                        <p style="color: var(--text-secondary); font-size: 0.9em;">No incoming requests.</p>
-            <%      } else {
-                        for (FriendRequest req : requests) {
-                            User senderUser = userDao.getUserById(req.getSenderId());
-                            String senderName = (senderUser != null) ? senderUser.getUsername() : "Unknown User";
-            %>
-                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #444;">
-                                <span>Request from <strong><%= senderName %></strong> (ID: <%= req.getSenderId() %>)</span>
-                                <div>
-                                    <form action="FriendServlet" method="POST" style="display: inline-block;">
-                                       <input type="hidden" name="action" value="accept">
-                                       <input type="hidden" name="requestId" value="<%= req.getId() %>"> 
-                                       <button type="submit" class="btn" style="background: var(--success-green); width: auto; padding: 5px 10px;">Accept</button>
-                                    </form>
-                                    <form action="FriendServlet" method="POST" style="display: inline-block; margin-left: 5px;">
-                                       <input type="hidden" name="action" value="reject">
-                                       <input type="hidden" name="requestId" value="<%= req.getId() %>">
-                                       <button type="submit" class="btn" style="background: var(--error-red); width: auto; padding: 5px 10px;">Reject</button>
-                                    </form>
-                                </div>
-                            </div>
-            <%          }
-                    }
-                }
-            %>
-        </div>
-        
-        <div style="background: #2a2a30; padding: 15px; border-radius: 5px; margin-top: 20px;">
-            <h3>Sent Requests</h3>
-            <% 
-                if (userId != null) {
-                    FriendRequestDAO reqDao = new FriendRequestDAO();
-                    UserDAO userDao = new UserDAO();
-                    List<FriendRequest> sentRequests = reqDao.getRequestsBySender(userId);
-                    
-                    if (sentRequests.isEmpty()) {
-            %>
-                        <p style="color: var(--text-secondary); font-size: 0.9em;">No sent requests.</p>
-            <%      } else {
-                        for (FriendRequest req : sentRequests) {
-                            User receiverUser = userDao.getUserById(req.getReceiverId());
-                            String receiverName = (receiverUser != null) ? receiverUser.getUsername() : "Unknown User";
-            %>
-                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #444;">
-                                <span>Request to <strong><%= receiverName %></strong></span>
-                                <span style="color: var(--text-secondary); font-size: 0.9em;">Status: <strong><%= req.getStatus() %></strong></span>
-                            </div>
-            <%          }
-                    }
-                }
-            %>
-        </div>
-        
-        <div style="background: #2a2a30; padding: 15px; border-radius: 5px; margin-top: 20px;">
-            <h3>My Friends</h3>
-            <% 
-                if (userId != null) {
-                    com.nustcord.dao.FriendsDAO fdao = new com.nustcord.dao.FriendsDAO();
-                    List<com.nustcord.model.Friend> friends = fdao.getFriendsForUser(userId);
-                    if (friends.isEmpty()) {
-            %>
-                        <p style="color: var(--text-secondary); font-size: 0.9em;">No friends yet.</p>
-            <%      } else {
-                        UserDAO userDao = new UserDAO();
-            %>
-                        <ul style="list-style: none; padding: 0;">
-            <%
-                        for (com.nustcord.model.Friend f : friends) {
-                            int friendId = (f.getUserId1() == userId) ? f.getUserId2() : f.getUserId1();
-                            User friendUser = userDao.getUserById(friendId);
-                            String friendName = (friendUser != null) ? friendUser.getUsername() : "Unknown User";
-            %>
-                            <li style="padding: 10px; border-bottom: 1px solid #444;">
-                                <strong><%= friendName %></strong> (ID: <%= friendId %>)
-                            </li>
-            <%          }
-            %>
-                        </ul>
-            <%      
-                    }
-                }
-            %>
-        </div>
     </div>
+</div>
 </body>
 </html>

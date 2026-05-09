@@ -1,75 +1,33 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.nustcord.model.UserStatus" %>
-<%@ page import="com.nustcord.service.ProfileService" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.nustcord.model.Server" %>
-<%@ page import="com.nustcord.service.ServerService" %>
-<%@ page import="com.nustcord.dao.ServerDAO" %>
-<%@ page import="com.nustcord.dao.UserServerMapDAO" %>
 <%
     Integer userId = (Integer) session.getAttribute("userId");
     if (userId == null) { response.sendRedirect("login.jsp"); return; }
-
-    ProfileService ps = new ProfileService();
-    UserStatus us = ps.getStatus(userId);
-    String currentStatus = (us != null && us.getStatus() != null) ? us.getStatus() : "Offline";
-
-    Connection conn = (Connection) application.getAttribute("DBConnection");
-    ServerService serverService = new ServerService(new ServerDAO(conn), new UserServerMapDAO(conn));
-    List<Server> servers = serverService.getUserServers(userId);
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NUSTcord - Dashboard</title>
+    <title>NUSTcord - Home</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-    <div class="container container-large">
-        <div class="nav">
-            <span style="font-weight: bold; color: var(--accent-purple);">
-                Welcome, <%= session.getAttribute("username") %>
-            </span>
-            <div>
-                <li><a href="profile.jsp">Profile</a></li>
-                <li><a href="friends.jsp">Friends</a></li>
-                <li><a href="serverList.jsp">Servers</a></li>
-                <% for(Server s : servers) { %>
-                    <li><a href="serverSettings.jsp?serverId=<%=s.getId()%>">
-                        Settings: <%=s.getName()%>
-                    </a></li>
-                    <li><a href="channelView.jsp?serverId=<%=s.getId()%>">
-                        Channels: <%=s.getName()%>
-                    </a></li>
-                <% } %>
-                <li><a href="login.jsp">Logout</a></li>
+    <div class="app-container">
+        <jsp:include page="includes/top-nav.jsp" />
+        
+        <div class="main-wrapper">
+            <jsp:include page="includes/left-sidebar.jsp" />
+
+            <div class="main-content">
+                <div class="main-header">
+                    Home
+                </div>
+                <div class="content-body" style="display:flex; justify-content:center; align-items:center; flex-direction:column; color:var(--text-muted); height:100%;">
+                    <img src="https://ui-avatars.com/api/?name=NUST&background=5b6eae&color=fff&rounded=true" style="width: 120px; margin-bottom: 20px;">
+                    <h2>Welcome to NUSTcord</h2>
+                    <p>Select 'Friends' on the left, or join a Server from the Top Menu!</p>
+                </div>
             </div>
         </div>
-
-        <h2>Dashboard</h2>
-        
-        <% if (request.getParameter("error") != null) { %>
-            <div class="message error"><%= request.getParameter("error") %></div>
-        <% } %>
-        <% if (request.getParameter("success") != null) { %>
-            <div class="message success"><%= request.getParameter("success") %></div>
-        <% } %>
-
-        <div style="background: #2a2a30; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-            <h3>Your Status</h3>
-            <p>Current Status: <strong><%= currentStatus %></strong></p>
-            <form action="StatusServlet" method="POST" style="display: flex; gap: 10px;">
-                <select name="status" style="width: auto; flex-grow: 1;">
-                    <option value="Online" <%= "Online".equals(currentStatus) ? "selected" : "" %>>Online</option>
-                    <option value="Away" <%= "Away".equals(currentStatus) ? "selected" : "" %>>Away</option>
-                    <option value="Busy" <%= "Busy".equals(currentStatus) ? "selected" : "" %>>Busy</option>
-                    <option value="Offline" <%= "Offline".equals(currentStatus) ? "selected" : "" %>>Offline</option>
-                </select>
-                <button type="submit" class="btn" style="width: auto; margin-top: 0;">Update Status</button>
-            </form>
-        </div>
-        
-        <p>This is Phase A of NUSTcord. Use the navigation to explore your profile, friends list, and servers.</p>
     </div>
+</div>
 </body>
 </html>

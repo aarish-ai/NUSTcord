@@ -1,4 +1,5 @@
 com\nustcord\servlet\RegisterServlet.class
+com\nustcord\util\TestDB.class
 com\nustcord\dao\ChannelDAO.class
 com\nustcord\model\Profile.class
 com\nustcord\service\MessageService.class

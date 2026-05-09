@@ -1,20 +1,17 @@
 package com.nustcord.dao;
 
 import com.nustcord.model.Message;
+import com.nustcord.util.DBConnection;
 import java.sql.*;
 import java.util.*;
 
 public class MessageDAO {
-    private Connection conn;
-
-    public MessageDAO(Connection conn) {
-        this.conn = conn;
-    }
 
     // Save a new message
     public void saveMessage(Message message) throws SQLException {
         String sql = "INSERT INTO messages (channel_id, sender_id, content) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, message.getChannelId());
             stmt.setInt(2, message.getSenderId());
             stmt.setString(3, message.getContent());
@@ -31,7 +28,8 @@ public class MessageDAO {
     public List<Message> getMessagesByChannel(int channelId) throws SQLException {
         String sql = "SELECT * FROM messages WHERE channel_id = ? ORDER BY created_at ASC";
         List<Message> messages = new ArrayList<>();
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, channelId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {

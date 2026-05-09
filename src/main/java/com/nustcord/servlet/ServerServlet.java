@@ -18,8 +18,7 @@ public class ServerServlet extends HttpServlet {
 
     @Override
     public void init() {
-        Connection conn = (Connection) getServletContext().getAttribute("DBConnection");
-        serverService = new ServerService(new ServerDAO(conn), new UserServerMapDAO(conn));
+        serverService = new ServerService(new ServerDAO(), new UserServerMapDAO());
     }
 
     @Override

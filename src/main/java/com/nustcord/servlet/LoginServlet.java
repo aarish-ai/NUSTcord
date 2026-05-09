@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             // Set User Status to Online on login
             profileService.updateStatus(loggedInUser.getId(), "Online");
             
-            response.sendRedirect("dashboard.jsp");
+            response.sendRedirect("loading.jsp");
         } catch (AuthException e) {
             response.sendRedirect("login.jsp?error=" + e.getMessage());
         }
