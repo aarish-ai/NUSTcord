@@ -28,10 +28,12 @@ import java.sql.SQLException;
 public class DBConnection {
 
     // H2 Embedded File-Based Database in MySQL compatibility mode.
+    // /data/nustcorddb maps to the Docker VOLUME declared in the Dockerfile,
+    // which Railway persists across container restarts so data is never wiped.
     // DATABASE_TO_LOWER=TRUE makes column names case-insensitive (matches MySQL behaviour).
     // AUTO_SERVER=TRUE allows multiple JVM processes to share the same file database.
     private static final String URL =
-        "jdbc:h2:file:C:/Users/DELL/.gemini/antigravity/scratch/NUSTcord/nustcord_db;" +
+        "jdbc:h2:file:/data/nustcorddb;" +
         "MODE=MySQL;DATABASE_TO_LOWER=TRUE;AUTO_SERVER=TRUE";
 
     // H2 default credentials (no real security needed for embedded dev DB)

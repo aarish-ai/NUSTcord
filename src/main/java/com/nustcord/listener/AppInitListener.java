@@ -46,11 +46,13 @@ public class AppInitListener implements ServletContextListener {
              Statement stmt = conn.createStatement()) {
 
             // Resolve the absolute path to schema.sql on the filesystem.
-            // getRealPath works inside the WAR; fall back to hardcoded path for IDE runs.
-            String schemaPath = sce.getServletContext().getRealPath("/../schema.sql");
+            // getRealPath resolves schema.sql from the root of the deployed WAR.
+            String schemaPath = sce.getServletContext().getRealPath("/schema.sql");
             if (schemaPath == null) {
-                // Fallback path for running directly from the IDE (not deployed to Tomcat)
-                schemaPath = "C:/Users/DELL/.gemini/antigravity/scratch/NUSTcord/schema.sql";
+                // This should not happen inside a properly deployed WAR.
+                // If it does, log clearly so the issue is easy to diagnose.
+                System.err.println("Could not resolve schema.sql path – skipping schema init.");
+                return;
             }
 
             // Read the entire SQL file into a StringBuilder, skipping comment lines
