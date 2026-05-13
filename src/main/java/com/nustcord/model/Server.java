@@ -7,6 +7,8 @@ public class Server {
     private String name;
     private int ownerId;
     private Timestamp createdAt;
+    /** BCrypt hash of the join password; null means the server is open (no password). */
+    private String passwordHash;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -19,4 +21,10 @@ public class Server {
 
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+
+    /** Returns true when this server requires a password to join. */
+    public boolean isPasswordProtected() { return passwordHash != null && !passwordHash.isEmpty(); }
+
+    public String getPasswordHash() { return passwordHash; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
 }

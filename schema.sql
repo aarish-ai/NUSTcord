@@ -48,9 +48,13 @@ CREATE TABLE IF NOT EXISTS servers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     owner_id INT NOT NULL,
+    password_hash VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- Add password_hash to any existing servers table that was created before this column existed
+ALTER TABLE servers ADD COLUMN IF NOT EXISTS password_hash VARCHAR(255) DEFAULT NULL;
 
 CREATE TABLE IF NOT EXISTS channels (
     id INT AUTO_INCREMENT PRIMARY KEY,

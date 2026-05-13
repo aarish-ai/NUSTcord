@@ -15,6 +15,7 @@ import com.nustcord.dao.ServerDAO;
 import com.nustcord.dao.UserServerMapDAO;
 import com.nustcord.model.Server;
 import com.nustcord.service.ServerService;
+import com.nustcord.util.PasswordUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -78,15 +79,24 @@ public class ServerServlet extends HttpServlet {
                 // Read the desired server name from the POST body
                 String name = req.getParameter("name");
 
+                // Optional server password — empty string means "no password" (open server)
+                String password = req.getParameter("password");
+
                 // Build a Server model and let ServerService fill in the generated ID
                 Server server = new Server();
                 server.setName(name);
+
+                // BCrypt-hash the password only if one was actually provided
+                if (password != null && !password.trim().isEmpty()) {
+                    server.setPasswordHash(PasswordUtil.hashPassword(password.trim()));
+                }
+                // If no password, passwordHash stays null → open server
 
                 // ServerService creates: 1) server row, 2) Admin role, 3) owner membership, 4) #general channel
                 serverService.createServer(server, userId);
 
                 // Redirect to the server list page so the new server is immediately visible
-                resp.sendRedirect("serverList.jsp");
+                resp.sendRedirect("serverList.jsp?success=Server+created+successfully");
             }
         } catch (SQLException e) {
             // Wrap SQL errors as servlet exceptions; the container will show the error page
