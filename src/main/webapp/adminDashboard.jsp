@@ -34,6 +34,13 @@
     <style>
         /* ─── Admin Dashboard Scoped Styles ─── */
 
+        /* Override the global `overflow: hidden` on body that the chat layout needs.
+           The admin page is a scrollable document, not a fixed-height chat interface. */
+        html, body {
+            overflow-y: auto !important;
+            height: auto !important;
+        }
+
         /* Full-height dark background matching the app theme */
         .admin-wrapper {
             min-height: 100vh;
